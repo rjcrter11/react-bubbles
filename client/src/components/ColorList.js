@@ -10,10 +10,16 @@ const ColorList = ({ colors, updateColors }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
+  const [addColor, setAddColor] = useState(initialColor);
+  const [adding, setAdding] = useState(false);
 
   const editColor = (color) => {
     setEditing(true);
     setColorToEdit(color);
+  };
+
+  const addingColor = () => {
+    setAdding(!adding);
   };
 
   const saveEdit = (e) => {
@@ -36,6 +42,16 @@ const ColorList = ({ colors, updateColors }) => {
       .then((res) => {
         console.log(res);
         updateColors(colors.filter((color) => color.id !== res.data));
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const addNewColor = () => {
+    axiosWithAuth()
+      .post("colors", addColor)
+      .then((res) => {
+        console.log(res);
+        updateColors(res.data);
       })
       .catch((err) => console.log(err));
   };
@@ -64,6 +80,9 @@ const ColorList = ({ colors, updateColors }) => {
             />
           </li>
         ))}
+        <button className="add-btn" onClick={addingColor}>
+          add new color
+        </button>
       </ul>
       {editing && (
         <form onSubmit={saveEdit}>
@@ -95,8 +114,37 @@ const ColorList = ({ colors, updateColors }) => {
           </div>
         </form>
       )}
-      <div className="spacer" />
-      {/* stretch - build another form here to add a color */}
+
+      {adding && (
+        <form className="add-color-form" onSubmit={addNewColor}>
+          <legend>add color</legend>
+          <label>
+            color name:
+            <input
+              onChange={(e) =>
+                setAddColor({ ...addColor, color: e.target.value })
+              }
+              value={addColor.color}
+            />
+          </label>
+          <label>
+            hex code:
+            <input
+              onChange={(e) =>
+                setAddColor({
+                  ...addColor,
+                  code: { hex: e.target.value }
+                })
+              }
+              value={addColor.code.hex}
+            />
+          </label>
+          <div className="button-row">
+            <button type="submit">save</button>
+            <button onClick={() => setAdding(false)}>cancel</button>
+          </div>
+        </form>
+      )}
     </div>
   );
 };
