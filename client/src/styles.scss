@@ -20,10 +20,6 @@ body,
   }
 }
 
-.spacer {
-  height: 100%;
-}
-
 .bubble-wrap {
   margin: 0 auto;
   display: flex;
@@ -93,7 +89,14 @@ form {
     border: none;
     background-color: black;
     color: white;
-    padding: 3px 8px;
-    margin-top: 16px;
+    padding: 4px 8px;
+    margin-top: 14px;
   }
+}
+
+.add-btn {
+  padding: 1.5% 3%;
+  border-radius: 5px;
+  margin-top: 2%;
+  border: 1px solid gray;
 }
