@@ -4,9 +4,6 @@ import { withFormik, Form, Field } from "formik";
 import { withRouter } from "react-router-dom";
 
 const Login = () => {
-  // make a post request to retrieve a token from the api
-  // when you have handled the token, navigate to the BubblePage route
-
   return (
     <div>
       <h1>Welcome to the Bubble App </h1>
@@ -27,14 +24,12 @@ const FormikForm = withRouter(
         password: password || ""
       };
     },
-    handleSubmit(values, { props, setStatus }) {
+    handleSubmit(values, { props }) {
       axiosWithAuth()
         .post("login", values)
         .then((res) => {
           console.log(res);
           window.localStorage.setItem("token", res.data.payload);
-          const login = res.data;
-          setStatus(login);
           props.history.replace("/colors");
         })
         .catch((err) => console.log(err));
