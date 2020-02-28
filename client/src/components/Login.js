@@ -32,10 +32,10 @@ const FormikForm = withRouter(
         .post("login", values)
         .then((res) => {
           console.log(res);
-          // window.localStorage.setItem('token', res.data.payload);
-          // const login = res.data;
-          // setStatus(login);
-          // props.history.replace('/colors')
+          window.localStorage.setItem("token", res.data.payload);
+          const login = res.data;
+          setStatus(login);
+          props.history.replace("/colors");
         })
         .catch((err) => console.log(err));
     }
